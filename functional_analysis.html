@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Introduction to Functional Analysis in Bioinformatics | HAB</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Introduction to Functional Analysis in Bioinformatics" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Personal Website" />
+<meta property="og:description" content="Personal Website" />
+<link rel="canonical" href="https://amoyag.github.io/HAB/functional_analysis.html" />
+<meta property="og:url" content="https://amoyag.github.io/HAB/functional_analysis.html" />
+<meta property="og:site_name" content="HAB" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Introduction to Functional Analysis in Bioinformatics" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Personal Website","headline":"Introduction to Functional Analysis in Bioinformatics","url":"https://amoyag.github.io/HAB/functional_analysis.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/HAB/assets/css/style.css?v=761ff1aa04c1b4146a613075dafb478786dd5660">
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/HAB/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+      
+      <h1><a href="https://amoyag.github.io/HAB/">HAB</a></h1>
+      
+
+      <h3 id="introduction-to-functional-analysis-in-bioinformatics">Introduction to Functional Analysis in Bioinformatics</h3>
+
+<p>Functional analysis in bioinformatics involves understanding the biological function of genes or proteins within an organism. After sequencing or identifying a gene of interest, researchers often need to determine its function and role in cellular processes. Functional analysis provides insights into gene ontology, biological pathways, molecular interactions, and overall cellular function.</p>
+
+<p>One common approach for functional analysis is <strong>overrepresentation analysis</strong>, which aims to identify biological functions that are significantly enriched within a group of genes of interest compared to a reference group. This is done by comparing the annotated functions of the genes in the target group against those in the reference (or background) group.</p>
+
+<p>A typical statistical method used for this purpose is the <strong>Fisher exact test</strong>. For each functional category, the proportion of genes in the target group that are annotated with a given function is compared to the proportion of genes in the background group with the same annotation. If the target group has a significantly higher proportion of genes with that function, the function is considered overrepresented.</p>
+
+<p>The Fisher exact test can be represented using a contingency table. For example, consider a functional category (e.g., cell cycle regulation) and the number of genes in two lists: the target list (genes of interest) and the background list:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>In Category</th>
+      <th>Not in Category</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Genes of Interest</td>
+      <td>3</td>
+      <td>9</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>Background</td>
+      <td>4</td>
+      <td>20</td>
+      <td>24</td>
+    </tr>
+    <tr>
+      <td>Total</td>
+      <td>7</td>
+      <td>29</td>
+      <td>36</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Using the Fisher exact test, we calculate the p-value to determine if the proportion of genes of interest in the category is significantly higher than expected by chance. The null hypothesis is that the representation of the genes of interest in a functional category is equal to the representation of the background in that category.</p>
+
+<p>The Fisher exact test formula for calculating the p-value is:</p>
+
+<pre><code class="language-math">p = \frac{ \binom{a+b}{a} \binom{c+d}{c} }{ \binom{a+b+c+d}{a+c} }
+</code></pre>
+
+<p>where:</p>
+<ul>
+  <li>$a$ is the number of genes of interest in the category,</li>
+  <li>$b$ is the number of genes of interest not in the category,</li>
+  <li>$c$ is the number of background genes in the category,</li>
+  <li>$d$ is the number of background genes not in the category.</li>
+</ul>
+
+<p>The p-value represents the probability of observing this distribution or one more extreme under the null hypothesis.</p>
+
+<p>The p-value obtained from the Fisher exact test can be very small, such as <strong>$p$ = 1.13 × 10⁻²⁹</strong>, indicating significant overrepresentation. Since multiple categories are often tested, <strong>p-value correction</strong> (e.g., using the Benjamini-Hochberg method) is applied to control the false discovery rate.</p>
+
+<p>Gene Set Enrichment Analysis (GSEA) is a computational method used to determine whether a predefined set of genes shows statistically significant, concordant differences between two biological states (e.g., healthy vs. diseased). Unlike overrepresentation analysis, which focuses on discrete gene lists, GSEA considers all genes ranked by their expression levels, making it more robust against arbitrary thresholds for differential expression. It is particularly useful for capturing subtle but coordinated changes across a set of related genes, such as those involved in the same pathway or biological process. GSEA uses permutation testing to assess the statistical significance of the observed enrichment, providing insights into the functional context of experimental data.</p>
+
+<p>With the vast amount of genomic data being generated, functional analysis plays a key role in making sense of raw sequences, converting them into biologically meaningful insights. Several Python modules and tools are available to facilitate functional analysis, allowing researchers to automate and simplify their workflows. Below are some Python packages commonly used for this purpose, along with example scripts illustrating how to use each of them.</p>
+
+<h3 id="1-biopython">1. <strong>Biopython</strong></h3>
+
+<p><code class="language-plaintext highlighter-rouge">Biopython</code> is a comprehensive toolkit for biological computation. It provides functions for sequence analysis, querying biological databases, and functional analysis, including annotations and domain searches. <code class="language-plaintext highlighter-rouge">Biopython</code> is not typically used for performing functional analysis in the same way as other specialized tools. It is primarily a toolkit for biological computation, providing modules for: sequence analysis (e.g., parsing FASTA/GenBank files, sequence alignment), database querying (e.g., accessing NCBI Entrez, retrieving protein/gene records) and annotation retrieval (e.g., extracting basic information about genes and proteins). Thus, Biopython allows you to <strong>retrieve gene or protein data</strong>, such as functional annotations, GO terms, and pathways. It can be useful as a complementary tool to <strong>fetch data</strong> (e.g., retrieving sequences, annotations, or even related pathways for genes of interest), which can then be analyzed with other specialized software for functional analysis.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">Bio</span> <span class="kn">import</span> <span class="n">Entrez</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="c1"># Use Entrez to search for genes and fetch their functional annotations
+</span><span class="n">Entrez</span><span class="p">.</span><span class="n">email</span> <span class="o">=</span> <span class="s">"your_email@example.com"</span>
+
+<span class="c1"># Define the list of glycolysis genes
+</span><span class="n">gene_symbols</span> <span class="o">=</span> <span class="p">[</span><span class="s">"GAPDH"</span><span class="p">,</span> <span class="s">"PKM"</span><span class="p">,</span> <span class="s">"ALDOA"</span><span class="p">,</span> <span class="s">"HK1"</span><span class="p">,</span> <span class="s">"PFKM"</span><span class="p">,</span> <span class="s">"LDHA"</span><span class="p">]</span>
+
+<span class="c1"># Iterate over each gene to fetch annotations
+</span><span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">gene_symbols</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Search for the gene in Entrez
+</span>        <span class="n">handle</span> <span class="o">=</span> <span class="n">Entrez</span><span class="p">.</span><span class="n">esearch</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s">"gene"</span><span class="p">,</span> <span class="n">term</span><span class="o">=</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">gene</span><span class="si">}</span><span class="s">[Gene] AND Homo sapiens[Organism]"</span><span class="p">)</span>
+        <span class="n">record</span> <span class="o">=</span> <span class="n">Entrez</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">record</span><span class="p">[</span><span class="s">'IdList'</span><span class="p">]:</span>
+            <span class="n">gene_id</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s">'IdList'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="c1"># Fetch the gene summary to get functional annotations
+</span>            <span class="n">handle</span> <span class="o">=</span> <span class="n">Entrez</span><span class="p">.</span><span class="n">efetch</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s">"gene"</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">gene_id</span><span class="p">,</span> <span class="n">rettype</span><span class="o">=</span><span class="s">"gb"</span><span class="p">,</span> <span class="n">retmode</span><span class="o">=</span><span class="s">"text"</span><span class="p">)</span>
+            <span class="n">gene_record</span> <span class="o">=</span> <span class="n">handle</span><span class="p">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="n">handle</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+
+            <span class="c1"># Print the fetched annotation
+</span>            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Annotations for </span><span class="si">{</span><span class="n">gene</span><span class="si">}</span><span class="s">:</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">gene_record</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="s">"="</span><span class="o">*</span><span class="mi">50</span> <span class="o">+</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"No record found for gene: </span><span class="si">{</span><span class="n">gene</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+        <span class="c1"># Pause to avoid overwhelming the Entrez servers
+</span>        <span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"An error occurred while fetching annotations for </span><span class="si">{</span><span class="n">gene</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="2-goatools">2. <strong>GOATOOLS</strong></h3>
+
+<p><code class="language-plaintext highlighter-rouge">GOATOOLS</code> is a Python library that helps with Gene Ontology (GO) enrichment analysis. It allows researchers to perform statistical analysis on a set of genes to determine which biological processes, cellular components, or molecular functions are significantly enriched.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">goatools</span> <span class="kn">import</span> <span class="n">obo_parser</span>
+<span class="kn">from</span> <span class="nn">goatools.go_enrichment</span> <span class="kn">import</span> <span class="n">GOEnrichmentStudy</span>
+<span class="kn">from</span> <span class="nn">goatools.associations</span> <span class="kn">import</span> <span class="n">read_gaf</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">mygene</span>
+
+<span class="c1">### Download stuff
+</span>
+<span class="c1">## Get the GO ontology obo file
+# URL of the go-basic.obo file
+</span><span class="n">obo_url</span> <span class="o">=</span> <span class="s">"http://current.geneontology.org/ontology/go-basic.obo"</span>
+<span class="n">obo_file_path</span> <span class="o">=</span> <span class="s">"go-basic.obo"</span>
+
+<span class="c1"># Download only if the file does not already exist
+</span><span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="n">obo_file_path</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">obo_url</span><span class="p">)</span>
+        <span class="n">response</span><span class="p">.</span><span class="n">raise_for_status</span><span class="p">()</span>  <span class="c1"># Raise an exception for HTTP errors
+</span>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">obo_file_path</span><span class="p">,</span> <span class="s">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+            <span class="nb">file</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Successfully downloaded 'go-basic.obo' to </span><span class="si">{</span><span class="n">obo_file_path</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">requests</span><span class="p">.</span><span class="n">exceptions</span><span class="p">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"An error occurred while downloading the file: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"'</span><span class="si">{</span><span class="n">obo_file_path</span><span class="si">}</span><span class="s">' already exists. Skipping download."</span><span class="p">)</span>
+
+<span class="c1">## Download the GAF file
+# URL of the goa_human.gaf file
+</span><span class="n">gaf_url</span> <span class="o">=</span> <span class="s">"http://current.geneontology.org/annotations/goa_human.gaf.gz"</span>
+<span class="n">compressed_gaf_file_path</span> <span class="o">=</span> <span class="s">"goa_human.gaf.gz"</span>
+<span class="n">extracted_gaf_file_path</span> <span class="o">=</span> <span class="s">"goa_human.gaf"</span>
+
+<span class="c1"># Download and extract only if the file does not already exist
+</span><span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="n">extracted_gaf_file_path</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">gaf_url</span><span class="p">)</span>
+        <span class="n">response</span><span class="p">.</span><span class="n">raise_for_status</span><span class="p">()</span>  <span class="c1"># Raise an exception for HTTP errors
+</span>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">compressed_gaf_file_path</span><span class="p">,</span> <span class="s">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+            <span class="nb">file</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Successfully downloaded 'goa_human.gaf.gz' to </span><span class="si">{</span><span class="n">compressed_gaf_file_path</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+        <span class="c1"># Extract the .gz file
+</span>        <span class="k">with</span> <span class="n">gzip</span><span class="p">.</span><span class="nb">open</span><span class="p">(</span><span class="n">compressed_gaf_file_path</span><span class="p">,</span> <span class="s">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_in</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">extracted_gaf_file_path</span><span class="p">,</span> <span class="s">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_out</span><span class="p">:</span>
+                <span class="n">shutil</span><span class="p">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">f_in</span><span class="p">,</span> <span class="n">f_out</span><span class="p">)</span>
+
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Successfully extracted '</span><span class="si">{</span><span class="n">extracted_gaf_file_path</span><span class="si">}</span><span class="s">'"</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">requests</span><span class="p">.</span><span class="n">exceptions</span><span class="p">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"An error occurred while downloading the file: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"'</span><span class="si">{</span><span class="n">extracted_gaf_file_path</span><span class="si">}</span><span class="s">' already exists. Skipping download."</span><span class="p">)</span>
+
+<span class="c1">### Convert genes ID to UniProt ID
+# Initialize MyGene client
+</span><span class="n">mg</span> <span class="o">=</span> <span class="n">mygene</span><span class="p">.</span><span class="n">MyGeneInfo</span><span class="p">()</span>
+
+<span class="c1"># Convert gene symbols to UniProt IDs
+</span><span class="n">gene_symbols</span> <span class="o">=</span> <span class="p">[</span><span class="s">"GAPDH"</span><span class="p">,</span> <span class="s">"PKM"</span><span class="p">,</span> <span class="s">"ALDOA"</span><span class="p">,</span> <span class="s">"HK1"</span><span class="p">,</span> <span class="s">"PFKM"</span><span class="p">,</span> <span class="s">"LDHA"</span><span class="p">]</span>
+<span class="n">query_result</span> <span class="o">=</span> <span class="n">mg</span><span class="p">.</span><span class="n">querymany</span><span class="p">(</span><span class="n">gene_symbols</span><span class="p">,</span> <span class="n">scopes</span><span class="o">=</span><span class="s">'symbol'</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="s">'uniprot'</span><span class="p">,</span> <span class="n">species</span><span class="o">=</span><span class="s">'human'</span><span class="p">)</span>
+
+<span class="c1"># Extract UniProt IDs for the study genes
+</span><span class="n">study_gene_uniprot_ids</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">query_result</span><span class="p">:</span>
+    <span class="n">uniprot_id</span> <span class="o">=</span> <span class="n">gene</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'uniprot'</span><span class="p">,</span> <span class="p">{}).</span><span class="n">get</span><span class="p">(</span><span class="s">'Swiss-Prot'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">uniprot_id</span><span class="p">:</span>
+        <span class="n">study_gene_uniprot_ids</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">uniprot_id</span><span class="p">)</span>
+
+<span class="c1"># Print the UniProt IDs for each gene
+</span><span class="k">print</span><span class="p">(</span><span class="s">"Converted UniProt IDs for the study genes:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">gene_symbol</span><span class="p">,</span> <span class="n">uniprot_id</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">gene_symbols</span><span class="p">,</span> <span class="n">study_gene_uniprot_ids</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Gene Symbol: </span><span class="si">{</span><span class="n">gene_symbol</span><span class="si">}</span><span class="s">, UniProt ID: </span><span class="si">{</span><span class="n">uniprot_id</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+<span class="c1">### Set the background list and perform ORA
+</span>
+<span class="c1"># Extract all genes from the GAF file
+</span><span class="n">all_genes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">extracted_gaf_file_path</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">gaf_file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">gaf_file</span><span class="p">:</span>
+            <span class="c1"># Skip comments
+</span>            <span class="k">if</span> <span class="n">line</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">"!"</span><span class="p">):</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Split the GAF line by tab
+</span>            <span class="n">columns</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">().</span><span class="n">split</span><span class="p">(</span><span class="s">"</span><span class="se">\t</span><span class="s">"</span><span class="p">)</span>
+
+            <span class="c1"># Column 2 contains the systematic identifier (e.g., UniProt ID)
+</span>            <span class="n">gene_identifier</span> <span class="o">=</span> <span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="c1"># Add the gene identifier to the set of all genes
+</span>            <span class="n">all_genes</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">gene_identifier</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Successfully extracted </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_genes</span><span class="p">)</span><span class="si">}</span><span class="s"> gene identifiers from the GAF file."</span><span class="p">)</span>
+
+<span class="k">except</span> <span class="nb">FileNotFoundError</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"File '</span><span class="si">{</span><span class="n">extracted_gaf_file_path</span><span class="si">}</span><span class="s">' not found. Please make sure it is available."</span><span class="p">)</span>
+<span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"An error occurred while reading the GAF file: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+<span class="c1"># Convert to list for sampling
+</span><span class="n">all_genes_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">all_genes</span><span class="p">)</span>
+
+<span class="c1"># Randomly sample 1000 genes from the full list
+</span><span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>  <span class="c1"># Set seed for reproducibility
+</span><span class="n">background_gene_list</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">all_genes_list</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1"># Ensure that all study genes are included in the background list
+</span><span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">study_gene_uniprot_ids</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">gene</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">background_gene_list</span><span class="p">:</span>
+        <span class="n">background_gene_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">gene</span><span class="p">)</span>
+
+<span class="c1"># Perform GO enrichment analysis with GOATOOLS using the updated study list
+</span>
+<span class="c1"># Load the GO ontology
+</span><span class="n">go</span> <span class="o">=</span> <span class="n">obo_parser</span><span class="p">.</span><span class="n">GODag</span><span class="p">(</span><span class="n">obo_file_path</span><span class="p">)</span>
+
+<span class="c1"># Load gene-to-GO associations in GAF format
+</span><span class="n">gene2go</span> <span class="o">=</span> <span class="n">read_gaf</span><span class="p">(</span><span class="n">extracted_gaf_file_path</span><span class="p">)</span>
+
+<span class="c1"># Perform GO enrichment analysis
+</span><span class="n">go_enrich</span> <span class="o">=</span> <span class="n">GOEnrichmentStudy</span><span class="p">(</span>
+    <span class="n">background_gene_list</span><span class="p">,</span>  <span class="c1"># Updated background with genes
+</span>    <span class="n">gene2go</span><span class="p">,</span>               <span class="c1"># Gene to GO term associations
+</span>    <span class="n">go</span><span class="p">,</span>                    <span class="c1"># Gene Ontology DAG
+</span>    <span class="n">propagate_counts</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>            <span class="c1"># Significance cutoff
+</span>    <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">'fdr_bh'</span><span class="p">]</span>     <span class="c1"># Multiple testing correction
+</span><span class="p">)</span>
+
+<span class="c1"># Run study with UniProt IDs from the study set
+</span><span class="n">enriched_results</span> <span class="o">=</span> <span class="n">go_enrich</span><span class="p">.</span><span class="n">run_study</span><span class="p">(</span><span class="n">study_gene_uniprot_ids</span><span class="p">)</span>
+
+<span class="c1"># Print the enriched GO terms
+</span><span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">enriched_results</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">res</span><span class="p">.</span><span class="n">p_fdr_bh</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"GO ID: </span><span class="si">{</span><span class="n">res</span><span class="p">.</span><span class="n">GO</span><span class="si">}</span><span class="s">, Description: </span><span class="si">{</span><span class="n">res</span><span class="p">.</span><span class="n">name</span><span class="si">}</span><span class="s">, P-value: </span><span class="si">{</span><span class="n">res</span><span class="p">.</span><span class="n">p_fdr_bh</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h3 id="3-gseapy">3. <strong>gseapy</strong></h3>
+
+<p><code class="language-plaintext highlighter-rouge">gseapy</code> is a Python wrapper for Gene Set Enrichment Analysis (GSEA), a common technique used to determine if a predefined set of genes shows statistically significant differences between two biological states (e.g., healthy vs. diseased).</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">gseapy</span> <span class="k">as</span> <span class="n">gp</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="c1"># Define the list of glycolysis genes and convert them to uppercase
+</span><span class="n">glycolysis_genes</span> <span class="o">=</span> <span class="p">[</span><span class="s">"GAPDH"</span><span class="p">,</span> <span class="s">"PKM"</span><span class="p">,</span> <span class="s">"ALDOA"</span><span class="p">,</span> <span class="s">"HK1"</span><span class="p">,</span> <span class="s">"PFKM"</span><span class="p">,</span> <span class="s">"LDHA"</span><span class="p">]</span>
+<span class="n">glycolysis_genes_upper</span> <span class="o">=</span> <span class="p">[</span><span class="n">gene</span><span class="p">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">glycolysis_genes</span><span class="p">]</span>
+
+<span class="c1"># Create a DataFrame to mimic expression data for GSEA analysis
+# In practice, this would come from experimental results (e.g., RNA-seq)
+# Here we create mock expression data for illustration purposes
+</span><span class="n">mock_expression_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'Gene'</span><span class="p">:</span> <span class="n">glycolysis_genes_upper</span><span class="p">,</span>
+    <span class="s">'Expression'</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.3</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">1.9</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]</span>  <span class="c1"># Random fold change values for example purposes
+</span><span class="p">}</span>
+
+<span class="c1"># Convert the mock data to a DataFrame
+</span><span class="n">expression_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mock_expression_data</span><span class="p">)</span>
+<span class="n">expression_df</span><span class="p">.</span><span class="n">set_index</span><span class="p">(</span><span class="s">'Gene'</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Print the mock expression data to see what it looks like
+</span><span class="k">print</span><span class="p">(</span><span class="s">"Mock Expression Data:"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">expression_df</span><span class="p">)</span>
+
+<span class="c1"># Save expression data to a CSV file to use for GSEA
+</span><span class="n">expression_df</span><span class="p">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">'expression_data.csv'</span><span class="p">)</span>
+
+<span class="c1"># Run GSEA Preranked analysis with gseapy
+# Use a predefined pathway gene set like KEGG
+</span><span class="k">try</span><span class="p">:</span>
+    <span class="n">gsea_results</span> <span class="o">=</span> <span class="n">gp</span><span class="p">.</span><span class="n">prerank</span><span class="p">(</span>
+        <span class="n">rnk</span><span class="o">=</span><span class="s">'expression_data.csv'</span><span class="p">,</span>  <span class="c1"># Ranked gene list, usually the output of a differential analysis
+</span>        <span class="n">gene_sets</span><span class="o">=</span><span class="s">'KEGG_2016'</span><span class="p">,</span>      <span class="c1"># Gene set database; using KEGG pathways for example
+</span>        <span class="n">outdir</span><span class="o">=</span><span class="s">'gsea_output'</span><span class="p">,</span>       <span class="c1"># Output directory
+</span>        <span class="n">permutation_num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>        <span class="c1"># Number of permutations for significance testing
+</span>        <span class="n">min_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>                 <span class="c1"># Minimum size of the gene set to include
+</span>        <span class="n">max_size</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span>              <span class="c1"># Maximum size of the gene set to include
+</span>    <span class="p">)</span>
+
+    <span class="c1"># Print top 5 results
+</span>    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Top 5 Enriched Pathways:"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">gsea_results</span><span class="p">.</span><span class="n">res2d</span><span class="p">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"An error occurred during GSEA analysis: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h3 id="4-enrichr">4. <strong>Enrichr</strong></h3>
+
+<p><code class="language-plaintext highlighter-rouge">Enrichr</code> is a powerful web-based tool and API for performing gene set enrichment analysis. It helps researchers determine if a predefined set of genes is significantly overrepresented in a user-provided list, providing insights into biological processes, pathways, and functions related to the genes of interest. Enrichr supports a vast collection of gene set libraries, including KEGG pathways, Gene Ontology (GO), Reactome, and many more, making it highly versatile for functional analysis. The tool integrates advanced scoring methods, such as combined scores, which consider both statistical significance and magnitude of enrichment, making it especially useful for prioritizing biologically relevant results.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="c1"># Define the list of glycolysis genes and convert them to uppercase
+</span><span class="n">glycolysis_genes</span> <span class="o">=</span> <span class="p">[</span><span class="s">"GAPDH"</span><span class="p">,</span> <span class="s">"PKM"</span><span class="p">,</span> <span class="s">"ALDOA"</span><span class="p">,</span> <span class="s">"HK1"</span><span class="p">,</span> <span class="s">"PFKM"</span><span class="p">,</span> <span class="s">"LDHA"</span><span class="p">]</span>
+<span class="n">glycolysis_genes_upper</span> <span class="o">=</span> <span class="p">[</span><span class="n">gene</span><span class="p">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">glycolysis_genes</span><span class="p">]</span>
+
+<span class="c1"># Enrichr API URLs
+</span><span class="n">add_list_url</span> <span class="o">=</span> <span class="s">"https://maayanlab.cloud/Enrichr/addList"</span>
+<span class="n">enrich_url</span> <span class="o">=</span> <span class="s">"https://maayanlab.cloud/Enrichr/enrich"</span>
+
+<span class="c1"># Add genes to Enrichr
+</span><span class="n">gene_str</span> <span class="o">=</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">glycolysis_genes_upper</span><span class="p">)</span>  <span class="c1"># Enrichr requires newline-separated gene symbols
+</span><span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'list'</span><span class="p">:</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">gene_str</span><span class="p">),</span>
+    <span class="s">'description'</span><span class="p">:</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="s">'Glycolysis Genes List'</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">add_list_url</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="n">user_list_id</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s">'userListId'</span><span class="p">]</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Successfully added genes to Enrichr. User List ID: </span><span class="si">{</span><span class="n">user_list_id</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Error adding genes to Enrichr: </span><span class="si">{</span><span class="n">response</span><span class="p">.</span><span class="n">status_code</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    <span class="nb">exit</span><span class="p">()</span>
+
+<span class="c1"># Perform enrichment analysis
+</span><span class="n">gene_set_library</span> <span class="o">=</span> <span class="s">'KEGG_2019_Human'</span>  <span class="c1"># Example: KEGG pathways
+</span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'userListId'</span><span class="p">:</span> <span class="n">user_list_id</span><span class="p">,</span>
+    <span class="s">'backgroundType'</span><span class="p">:</span> <span class="n">gene_set_library</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">enrich_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+    <span class="n">enrichment_results</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">gene_set_library</span> <span class="ow">in</span> <span class="n">enrichment_results</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Enrichment Analysis Results (Top Results):"</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">enrichment_results</span><span class="p">[</span><span class="n">gene_set_library</span><span class="p">][:</span><span class="mi">5</span><span class="p">]:</span>  <span class="c1"># Display top 5 results
+</span>            <span class="c1"># result is a list, so we access items by index
+</span>            <span class="n">term_name</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Term name
+</span>            <span class="n">pvalue</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>     <span class="c1"># P-value
+</span>            <span class="n">combined_score</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>  <span class="c1"># Combined score
+</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Term: </span><span class="si">{</span><span class="n">term_name</span><span class="si">}</span><span class="s">, P-value: </span><span class="si">{</span><span class="n">pvalue</span><span class="si">}</span><span class="s">, Combined Score: </span><span class="si">{</span><span class="n">combined_score</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"The expected gene set library was not found in the enrichment results."</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Error retrieving enrichment results: </span><span class="si">{</span><span class="n">response</span><span class="p">.</span><span class="n">status_code</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h3 id="5-stringdb">5. <strong>STRINGdb</strong></h3>
+
+<p><code class="language-plaintext highlighter-rouge">STRINGdb</code> is a Python module that interacts with the STRING database, a resource for exploring known and predicted protein-protein interactions. It allows users to retrieve interaction data and perform enrichment analysis for a set of proteins.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="c1"># STRINGdb API URL and method details
+</span><span class="n">string_api_url</span> <span class="o">=</span> <span class="s">"https://version-11-5.string-db.org/api"</span>
+<span class="n">output_format</span> <span class="o">=</span> <span class="s">"json"</span>
+<span class="n">method</span> <span class="o">=</span> <span class="s">"enrichment"</span>
+
+<span class="c1"># Construct the request URL
+</span><span class="n">request_url</span> <span class="o">=</span> <span class="s">"/"</span><span class="p">.</span><span class="n">join</span><span class="p">([</span><span class="n">string_api_url</span><span class="p">,</span> <span class="n">output_format</span><span class="p">,</span> <span class="n">method</span><span class="p">])</span>
+
+<span class="c1"># Glycolysis genes to use for functional enrichment analysis
+</span><span class="n">glycolysis_genes</span> <span class="o">=</span> <span class="p">[</span><span class="s">"GAPDH"</span><span class="p">,</span> <span class="s">"PKM"</span><span class="p">,</span> <span class="s">"ALDOA"</span><span class="p">,</span> <span class="s">"HK1"</span><span class="p">,</span> <span class="s">"PFKM"</span><span class="p">,</span> <span class="s">"LDHA"</span><span class="p">]</span>
+
+<span class="c1"># Define the parameters for the request
+</span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"identifiers"</span><span class="p">:</span> <span class="s">"%0d"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">glycolysis_genes</span><span class="p">),</span>  <span class="c1"># Protein list formatted with %0d (newline separator)
+</span>    <span class="s">"species"</span><span class="p">:</span> <span class="mi">9606</span><span class="p">,</span>  <span class="c1"># Species NCBI identifier for Homo sapiens (human)
+</span>    <span class="s">"caller_identity"</span><span class="p">:</span> <span class="s">"test_HAB"</span>  <span class="c1"># Replace with your own identifier or email address
+</span><span class="p">}</span>
+
+<span class="c1"># Make the POST request to STRINGdb API
+</span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">request_url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+
+<span class="c1"># Parse the JSON response
+</span><span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+
+<span class="c1"># Print the significant GO Biological Process (Process) annotations
+</span><span class="k">print</span><span class="p">(</span><span class="s">"Functional Enrichment Analysis Results (GO Biological Process Only, FDR &lt; 0.01):"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+    <span class="n">term</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s">"term"</span><span class="p">]</span>
+    <span class="n">preferred_names</span> <span class="o">=</span> <span class="s">","</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">"preferredNames"</span><span class="p">])</span>
+    <span class="n">fdr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">"fdr"</span><span class="p">])</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s">"description"</span><span class="p">]</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s">"category"</span><span class="p">]</span>
+
+    <span class="c1"># Filter results to only include GO Biological Processes with FDR &lt; 0.01
+</span>    <span class="k">if</span> <span class="n">category</span> <span class="o">==</span> <span class="s">"Process"</span> <span class="ow">and</span> <span class="n">fdr</span> <span class="o">&lt;</span> <span class="mf">0.01</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\t</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">([</span><span class="n">term</span><span class="p">,</span> <span class="n">preferred_names</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">fdr</span><span class="p">),</span> <span class="n">category</span><span class="p">,</span> <span class="n">description</span><span class="p">]))</span>
+</code></pre></div></div>
+
+
+
+      
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+    <script>anchors.add();</script>
+  </body>
+</html>
