@@ -1,0 +1,26 @@
+{
+  "input": "data/genes_input.txt",
+  "n_genes": 5,
+  "organism": "hsapiens",
+  "sources_requested": [
+    "GO:BP",
+    "GO:MF",
+    "GO:CC",
+    "REAC"
+  ],
+  "sources_used": [
+    "GO:BP",
+    "GO:MF",
+    "GO:CC",
+    "REAC"
+  ],
+  "fdr_threshold": 0.05,
+  "include_iea": true,
+  "timestamp": "2025-11-02T11:59:12",
+  "tsv": "results/enrichment_20251102-115912.tsv",
+  "png": "results/enrichment_20251102-115912.png",
+  "script": "rubenscript.py",
+  "version_info": {
+    "python": "3.12.3"
+  }
+}
