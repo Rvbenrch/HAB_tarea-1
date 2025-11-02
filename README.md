@@ -9,6 +9,7 @@
 
 <details>
   <summary>Ver el enunciado</summary>
+  
 Entrega un script en Python que implemente de forma detallada un análisis funcional de los genes **COX4I2**, **ND1** y **ATP6**. El análisis debe utilizar librerías de Python para evaluar los procesos biológicos asociados a estos genes. Asegúrate de que tu código esté bien documentado y describa claramente los métodos y bases de datos utilizadas para obtener información funcional.
 
 ## Estructura del repositorio
@@ -57,7 +58,7 @@ pandas
 
 ##  Descripción general
 
-Este proyecto implementa un **script en Python** que realiza **análisis de enriquecimiento funcional (Functional Enrichment Analysis)** sobre una lista de genes, utilizando la API oficial de **[g:Profiler](https://biit.cs.ut.ee/gprofiler/)**.  
+Este proyecto implementa un **script en Python** que realiza **análisis de enriquecimiento funcional (Functional Enrichment Analysis)** sobre una lista de genes, utilizando la API oficial de   **[g:Profiler](https://biit.cs.ut.ee/gprofiler/)**.  
 
 El objetivo es identificar qué **procesos biológicos, funciones moleculares, componentes celulares o rutas metabólicas (GO, Reactome, KEGG)** están **significativamente sobrerrepresentadas** en el conjunto de genes de interés.
 
@@ -80,6 +81,7 @@ Este proyecto implementa un enfoque de **Over-Representation Analysis (ORA)**, e
 
 <details>
 <summary>Como ejecutarlo si usas Ubuntu:</summary>
+  
 ```{bash}
 # (Una sola vez si hace falta)
 
@@ -89,18 +91,21 @@ Este proyecto implementa un enfoque de **Over-Representation Analysis (ORA)**, e
 # En algunas distros nuevas:
 # sudo apt install -y python3.12-venv
 
-Ahora crea el venv y actívalo:
+# Ahora crea el venv y actívalo:
 `python3 -m venv venv`
 `source venv/bin/activate`
 
 Instalar dependencias:
 `pip install -r requirements.txt`
 
+```
+
 Ejecución:
 `python3 scripts/rubenscript.py --input data/genes_input.txt --organism hsapiens --sources GO:BP GO:MF GO:CC REAC --fdr 0.05 --top 20 --`
 
 o bien tambien se puede usar: 
 
+```{bash}
     python scripts/rubenscript.py \
   --input data/genes_input.txt \
   --organism hsapiens \
@@ -108,7 +113,7 @@ o bien tambien se puede usar:
   --fdr 0.05 \
   --top 20 \
   --outdir results
-
+```
 Salidas esperadas:
 `enrichement.json`
 `enrichement.png`
